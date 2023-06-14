@@ -39,4 +39,5 @@ COPY . .
 EXPOSE 8080
 
 # Run the application
-CMD ["uvicorn", "--host", "0.0.0.0", "--port", "8080", "main:app"]
+# CMD ["uvicorn", "--host", "0.0.0.0", "--port", "8080", "main:app"]
+CMD ["gunicorn", "main:app", "--bind", "0.0.0.0:8080"]

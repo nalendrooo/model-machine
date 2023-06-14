@@ -1,10 +1,10 @@
 import os
-import uvicorn
+# import uvicorn
 import traceback
 import numpy as np
 import tensorflow_text
 import tensorflow as tf
-
+from gunicorn.app.base import BaseApplication
 # import download
 
 from pydantic import BaseModel
@@ -97,6 +97,29 @@ def predict_text(req: RequestText, response: Response):
 # Starting the server
 # You can check the API documentation easily using /docs after the server is running
 # port = os.environ.get("PORT", 8080)
-print(f"Listening to http://0.0.0.0:8080")
-uvicorn.run(app, host='0.0.0.0', port=8080)
+# print(f"Listening to http://0.0.0.0:8080")
+# uvicorn.run(app, host='0.0.0.0', port=8080)
 # download.run()
+
+class Server(BaseApplication):
+    def __init__(self, app, options=None):
+        self.options = options or {}
+        self.application = app
+        super().__init__()
+
+    def load_config(self):
+        for key, value in self.options.items():
+            self.cfg.set(key, value)
+
+    def load(self):
+        return self.application
+
+
+if __name__ == '__main__':
+    # app.run(debug=True)
+    options = {
+        'bind': '0.0.0.0:5000',
+        'workers': 4
+    }
+    server = Server(app, options)
+    server.run()

@@ -1,6 +1,6 @@
 fastapi
 pydantic
-uvicorn[standard]
+gunicorn
 python-multipart
 numpy
 Pillow
