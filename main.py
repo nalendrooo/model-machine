@@ -96,7 +96,7 @@ def predict_text(req: RequestText, response: Response):
 
 # Starting the server
 # You can check the API documentation easily using /docs after the server is running
-port = os.environ.get("PORT", 8080)
-print(f"Listening to http://0.0.0.0:{port}")
-uvicorn.run(app, host='0.0.0.0', port=port)
+# port = os.environ.get("PORT", 8080)
+print(f"Listening to http://0.0.0.0:8080")
+uvicorn.run(app, host='0.0.0.0', port=8080)
 # download.run()
