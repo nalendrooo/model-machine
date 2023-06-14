@@ -1,16 +1,12 @@
 import os
-# import uvicorn
 import traceback
 import numpy as np
 import tensorflow_text
 import tensorflow as tf
 from gunicorn.app.base import BaseApplication
-# import download
-
 from pydantic import BaseModel
-from urllib.request import Request
+import requests
 from fastapi import FastAPI, Response
-
 
 # URL to download the protobuf model
 url = "https://storage.googleapis.com/captone-bucket-model123/saved_model/1/saved_model.pb"
@@ -19,11 +15,12 @@ url = "https://storage.googleapis.com/captone-bucket-model123/saved_model/1/save
 model_path = "./saved_model.pb"
 
 # Download the model
-urllib.request.urlretrieve(url, model_path)
+response = requests.get(url)
+with open(model_path, "wb") as f:
+    f.write(response.content)
 
 # Initialize Model
 model = tf.saved_model.load("./saved_model.pb")
-# model = tf.saved_model.load("./saved_model/1")
 
 app = FastAPI()
 
